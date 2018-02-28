@@ -58,11 +58,35 @@ const withData = graphql(
     ${MovieCard.fragment}
   `,
   {
-    props: ({ data: { movies, loading, favorites } }) => {
+    props: ({ data: { movies, loading, favorites, fetchMore } }) => {
       return {
         movies,
         favorites,
-        loading
+        loading,
+        loadMore: () => {
+          const nextPage = Math.floor(movies.length / 20) + 1;
+          return fetchMore({
+            variables: {
+              page: nextPage
+            },
+            /**
+             * The first argument contains the list of movies already fetched and stored in the cache.
+             * The second argument contains the next page of movies.
+             *
+             * It's our responsibility to return an updated result to be persisted to the cache
+             * and the place to do that is in UpdateQuery.
+             */
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) {
+                return previousResult;
+              }
+              return Object.assign({}, previousResult, {
+                // Append the new feed results to the old one
+                movies: [...previousResult.movies, ...fetchMoreResult.movies]
+              });
+            }
+          });
+        }
       }
     }
   }
