@@ -1,4 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools');
+const isemail = require('isemail');
 const mergeSchema = require('./types');
 const axios = require('./axios');
 const makeLoaders = require('./loaders')
@@ -13,10 +14,14 @@ const typeDefs = [
     version: String!
   }
 
-  type Mutation {
-    noop: String
+  type LoginResponse {
+    token: String!
   }
 
+  type Mutation {
+    noop: String
+    login(email: String!): LoginResponse
+  }
 `
 ];
 
@@ -24,6 +29,16 @@ const resolvers = {
   Date: GraphQLDate,
   Query: {
     version: () => '1'
+  },
+  Mutation: {
+    login: (_, { email }) => {
+      if (!isemail.validate(email)) {
+        throw new Error('Invalid email');
+      }
+      return {
+        token: new Buffer(email).toString('base64')
+      };
+    }
   }
 };
 
@@ -31,7 +46,7 @@ module.exports = {
   schema: makeExecutableSchema(mergeSchema({ typeDefs, resolvers })),
   context: req => {
     return {
-      axios,
+      isLoggedIn: !!req.email,
       loaders: makeLoaders()
     };
   }
