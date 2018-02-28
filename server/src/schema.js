@@ -12,6 +12,11 @@ const typeDefs = [
   type Query {
     version: String!
   }
+
+  type Mutation {
+    noop: String
+  }
+
 `
 ];
 

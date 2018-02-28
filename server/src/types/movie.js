@@ -26,6 +26,14 @@ exports.type = `
     movies(page: Int): [Movie!]!
     favorites: [Movie!]!
   }
+
+  input FavoriteInput {
+    id: ID!
+  }
+
+  extend type Mutation {
+    addToFavorites(input: FavoriteInput!): Movie
+  }
 `;
 
 // This will be a unique set of Movie ids
@@ -75,6 +83,12 @@ exports.resolvers = {
       return Promise.all(
         Array.from(favorites).map(id => loaders.axios.load([`3/movie/${id}`]).then(res => res.data))
       );
+    }
+  },
+  Mutation: {
+    addToFavorites: (root, { input: { id } }, { loaders }) => {
+      favorites.add(id);
+      return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
     }
   }
 };
