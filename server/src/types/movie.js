@@ -19,6 +19,7 @@ exports.type = `
     revenue: Int
     releaseDate: Date
     genres: [Genre!]
+    cast: [Cast!]
     isFavorite: Boolean!
   }
 
@@ -63,6 +64,9 @@ exports.resolvers = {
       return loaders.axios.load(['3/genre/movie/list'])
         .then(res => res.data.genres)
         .then(genres => genreIds.map(id => genres.find(genre => genre.id === id)));
+    },
+    cast: ({ id: movieId }, args, { loaders }) => {
+      return loaders.axios.load([`3/movie/${movieId}/credits`]).then(res => res.data.cast);
     },
     isFavorite: ({ id }) => {
       return favorites.has(String(id));
