@@ -35,6 +35,7 @@ exports.type = `
 
   extend type Mutation {
     addToFavorites(input: FavoriteInput!): Movie
+    removeFromFavorites(input: FavoriteInput!): Movie
   }
 `;
 
@@ -96,6 +97,10 @@ exports.resolvers = {
   Mutation: {
     addToFavorites: (root, { input: { id } }, { loaders }) => {
       favorites.add(id);
+      return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
+    },
+    removeFromFavorites: (root, { input: { id } }, { loaders }) => {
+      favorites.delete(id);
       return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
     }
   }
