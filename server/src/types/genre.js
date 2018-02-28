@@ -11,9 +11,8 @@ exports.type = `
 
 exports.resolvers = {
   Query: {
-    genre: (root, { id }, { axios }) => {
-      return axios
-        .get('3/genre/movie/list')
+    genre: (root, { id }, { loaders }) => {
+      return loaders.axios.load(['3/genre/movie/list'])
         .then(res => res.data.genres)
         .then(genres => genres.find(genre => genre.id === parseInt(id)));
     }
