@@ -24,9 +24,11 @@ exports.type = `
   extend type Query {
     movie(id: ID!): Movie
     movies(page: Int): [Movie!]!
+    favorites: [Movie!]!
   }
 `;
 
+// This will be a unique set of Movie ids
 const favorites = new Set();
 
 exports.resolvers = {
@@ -68,6 +70,11 @@ exports.resolvers = {
     },
     movie: (root, { id }, { loaders }) => {
       return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
+    },
+    favorites: (_, __, { loaders }) => {
+      return Promise.all(
+        Array.from(favorites).map(id => loaders.axios.load([`3/movie/${id}`]).then(res => res.data))
+      );
     }
   }
 };
