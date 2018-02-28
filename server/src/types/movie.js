@@ -18,6 +18,7 @@ exports.type = `
     runtime: Int
     revenue: Int
     releaseDate: Date
+    genres: [Genre!]
   }
 
   extend type Query {
@@ -42,6 +43,16 @@ exports.resolvers = {
     },
     backdropPath: root => {
       return `https://image.tmdb.org/t/p/w1280${root.backdropPath}`;
+    },
+    genres: ({ genreIds, genres }, _, { axios }) => {
+      if (genres) {
+        return genres;
+      }
+
+      return axios
+        .get('3/genre/movie/list')
+        .then(res => res.data.genres)
+        .then(genres => genreIds.map(id => genres.find(genre => genre.id === id)));
     }
   },
   Query: {
