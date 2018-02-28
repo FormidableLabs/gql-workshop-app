@@ -19,6 +19,7 @@ exports.type = `
     revenue: Int
     releaseDate: Date
     genres: [Genre!]
+    isFavorite: Boolean!
   }
 
   extend type Query {
@@ -62,6 +63,9 @@ exports.resolvers = {
       return loaders.axios.load(['3/genre/movie/list'])
         .then(res => res.data.genres)
         .then(genres => genreIds.map(id => genres.find(genre => genre.id === id)));
+    },
+    isFavorite: ({ id }) => {
+      return favorites.has(String(id));
     }
   },
   Query: {
