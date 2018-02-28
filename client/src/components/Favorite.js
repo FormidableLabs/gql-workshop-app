@@ -49,6 +49,14 @@ const withAddToFavorites = graphql(gql`
           variables: {
             id: movieId
           },
+          optimisticResponse: {
+            __typename: "Mutation",
+            addToFavorites: {
+              __typename: 'Movie',
+              id: movieId,
+              isFavorite: true
+            }
+          },
           update: (cache, { data: { addToFavorites: movie } }) => {
             const data = cache.readQuery({
               query: MOVIES_QUERY
