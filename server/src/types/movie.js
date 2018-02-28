@@ -49,7 +49,8 @@ exports.resolvers = {
         return genres;
       }
 
-      return loaders.genres()
+      return loaders.axios.load(['3/genre/movie/list'])
+        .then(res => res.data.genres)
         .then(genres => genreIds.map(id => genres.find(genre => genre.id === id)));
     }
   },
