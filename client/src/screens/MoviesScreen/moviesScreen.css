@@ -1,0 +1,49 @@
+.moviesScreen {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 0 0;
+}
+
+.moviesResults {
+  display: grid;
+  grid-template-columns: 480px 480px;
+  grid-template-rows: auto;
+  grid-column-gap: 35px;
+  grid-row-gap: 35px;
+}
+
+.moviesTitle {
+  margin: 20px 0;
+  font-size: 2em;
+  text-align: left;
+}
+
+.favCount {
+  position: relative;
+  display: inline-block;
+}
+
+.favCount .fa-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  color: #2afa8b;
+}
+
+.favCount .favCountValue {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: 600;
+  font-size: 13px;
+  display: block;
+  width: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
