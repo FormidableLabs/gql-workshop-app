@@ -43,20 +43,22 @@ const Movies = ({ movies, favorites, loading, loadMore }) => {
  *   - Add pagination using FetchMore
  */
 
+
+export const MOVIES_QUERY = gql`
+  query Movies($page: Int) {
+      movies(page: $page) @connection(key: "Movies") {
+        id
+        ...MovieCard
+      }
+      favorites {
+        id
+      }
+  }
+  ${MovieCard.fragment}
+`;
+
 const withData = graphql(
-  gql`
-    query Movies($page: Int) {
-        movies(page: $page) {
-          id
-          ...MovieCard
-        }
-        favorites {
-          id
-          isFavorite
-        }
-    }
-    ${MovieCard.fragment}
-  `,
+  MOVIES_QUERY,
   {
     props: ({ data: { movies, loading, favorites, fetchMore } }) => {
       return {
