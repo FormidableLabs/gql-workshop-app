@@ -95,11 +95,19 @@ exports.resolvers = {
     }
   },
   Mutation: {
-    addToFavorites: (root, { input: { id } }, { loaders }) => {
+    addToFavorites: (root, { input: { id } }, { loaders, isLoggedIn }) => {
+      if (!isLoggedIn) {
+        throw new Error('Invalid Access: Not logged in')
+      }
+
       favorites.add(id);
       return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
     },
-    removeFromFavorites: (root, { input: { id } }, { loaders }) => {
+    removeFromFavorites: (root, { input: { id } }, { loaders, isLoggedIn }) => {
+      if (!isLoggedIn) {
+        throw new Error('Invalid Access: Not logged in')
+      }
+
       favorites.delete(id);
       return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
     }
