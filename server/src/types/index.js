@@ -1,6 +1,6 @@
 const merge = require('lodash/merge');
 
-const typePaths = [require('./movie')];
+const typePaths = [require('./movie'), require('./genre')];
 
 /**
  * Since we would like to modularize our schema, we need a convenient way to combine
