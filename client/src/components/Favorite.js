@@ -77,4 +77,45 @@ const withAddToFavorites = graphql(gql`
     }
   });
 
-export default withAddToFavorites(Favorite);
+const withRemoveFromFavorites = graphql(gql`
+  mutation($id: ID!) {
+    removeFromFavorites(input: { id: $id }) {
+      id
+      isFavorite
+    }
+  }
+`, {
+    props: ({ mutate, ownProps: { movieId } }) => {
+      return {
+        removeFromFavorites: () => mutate({
+          variables: {
+            id: movieId
+          },
+          optimisticResponse: {
+            __typename: "Mutation",
+            removeFromFavorites: {
+              __typename: 'Movie',
+              id: movieId,
+              isFavorite: true
+            }
+          },
+          update: (cache, { data: { removeFromFavorites: movie } }) => {
+            const data = cache.readQuery({
+              query: MOVIES_QUERY
+            });
+
+            data.favorites = data.favorites.reduce((favorites, movie) => {
+              if (movie.id === movieId) return favorites;
+              return [...favorites, movie];
+            }, []);
+
+            cache.writeQuery({
+              query: MOVIES_QUERY,
+              data
+            })
+          }
+        })
+      }
+    }
+  });
+export default compose(withAddToFavorites, withRemoveFromFavorites)(Favorite);
