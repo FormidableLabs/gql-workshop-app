@@ -1,0 +1,41 @@
+.movieCard {
+  color: #333;
+  background: white;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  text-align: left;
+  transition: all 200ms;
+}
+
+.movieCard:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cardImage {
+  width: 185px;
+  height: 283px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.cardTitle {
+  font-family: Lato, sans-serif;
+  color: #333;
+  font-size: 17.6px;
+  font-weight: 600;
+}
+
+.releaseDate {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.cardDetails {
+  padding: 10px;
+}
+
+.cardOverview {
+  font-size: 14px;
+  margin-top: 15px;
+}

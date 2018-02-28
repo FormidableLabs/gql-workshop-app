@@ -1,0 +1,66 @@
+.poster {
+  width: 100%;
+  display: block;
+}
+
+.posterContainer {
+  padding: 0;
+  width: 41.66667%;
+  height: auto;
+}
+
+.backgroundContainer {
+  background-size: cover;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 0;
+  width: 75%;
+  margin: 50px auto 0;
+  overflow: hidden;
+}
+
+.movieInfo {
+  padding: 25px;
+  color: #fafafa;
+  width: 58.33333%;
+}
+
+.title {
+  font-size: 2.5em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: Lato, sans-serif;
+  margin-bottom: 8px;
+}
+
+.tagline {
+  display: block;
+  padding-bottom: 0.25em;
+  color: #00fc87;
+  font-size: 1.3em;
+  font-family: Oswald, sans-serif;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Oswald, sans-serif;
+  margin-top: 35px;
+}
+
+.detailValue {
+  display: block;
+  color: #00fc87;
+  font-size: 1.6em;
+  line-height: 1.1em;
+}
+
+.detailContainer {
+  flex: 1 1 50%;
+  margin-bottom: 15px;
+}
