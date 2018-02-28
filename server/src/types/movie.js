@@ -55,20 +55,19 @@ exports.resolvers = {
     }
   },
   Query: {
-    movies: (root, { page = 1 }, { axios }) => {
-      return axios
-        .get(
-          '3/discover/movie',
-          {
-            params: {
-              page
-            }
+    movies: (root, { page = 1 }, { loaders }) => {
+      return loaders.axios.load([
+        '3/discover/movie',
+        {
+          params: {
+            page
           }
-        )
+        }
+      ])
         .then(res => res.data.results);
     },
-    movie: (root, { id }, { axios }) => {
-      return axios.get(`3/movie/${id}`).then(res => res.data);
+    movie: (root, { id }, { loaders }) => {
+      return loaders.axios.load([`3/movie/${id}`]).then(res => res.data);
     }
   }
 };
