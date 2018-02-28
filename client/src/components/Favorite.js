@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { MOVIES_QUERY } from '../screens/MoviesScreen';
 
 const Favorite = ({
   selected,
@@ -34,4 +35,38 @@ Favorite.propTypes = {
  *  Then do the same for removing favorites!
  */
 
-export default Favorite;
+const withAddToFavorites = graphql(gql`
+  mutation($id: ID!) {
+    addToFavorites(input: { id: $id }) {
+      id
+      isFavorite
+    }
+  }
+`, {
+    props: ({ mutate, ownProps: { movieId } }) => {
+      return {
+        addToFavorites: () => mutate({
+          variables: {
+            id: movieId
+          },
+          update: (cache, { data: { addToFavorites: movie } }) => {
+            const data = cache.readQuery({
+              query: MOVIES_QUERY
+            });
+            const hasMovie = data.favorites.some(({ id }) => id === movieId);
+
+            if (!hasMovie) {
+              data.favorites.push(movie);
+
+              cache.writeQuery({
+                query: MOVIES_QUERY,
+                data
+              })
+            }
+          }
+        })
+      }
+    }
+  });
+
+export default withAddToFavorites(Favorite);
