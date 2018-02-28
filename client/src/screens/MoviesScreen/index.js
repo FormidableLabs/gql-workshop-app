@@ -15,7 +15,7 @@ const FavCount = ({ count }) => {
   </div>
 }
 
-const Movies = ({ movies, favorites = [], loading, loadMore }) => {
+const Movies = ({ movies, favorites, loading, loadMore }) => {
   if (loading) return null;
 
   return (
@@ -50,13 +50,18 @@ const withData = graphql(
           id
           ...MovieCard
         }
+        favorites {
+          id
+          isFavorite
+        }
     }
     ${MovieCard.fragment}
   `,
   {
-    props: ({ data: { movies, loading } }) => {
+    props: ({ data: { movies, loading, favorites } }) => {
       return {
         movies,
+        favorites,
         loading
       }
     }
