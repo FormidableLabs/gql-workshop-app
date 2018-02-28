@@ -2,8 +2,14 @@ const { makeExecutableSchema } = require('graphql-tools');
 const mergeSchema = require('./types');
 const axios = require('./axios');
 
+const { GraphQLDate } = require('graphql-iso-date');
+
+
+
 const typeDefs = [
   `
+  scalar Date
+
   type Query {
     version: String!
   }
@@ -11,6 +17,7 @@ const typeDefs = [
 ];
 
 const resolvers = {
+  Date: GraphQLDate,
   Query: {
     version: () => '1'
   }

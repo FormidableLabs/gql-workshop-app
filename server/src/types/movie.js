@@ -9,6 +9,7 @@ exports.type = `
     tagline: String
     runtime: Int
     revenue: Int
+    releaseDate: Date
   }
 
   extend type Query {
