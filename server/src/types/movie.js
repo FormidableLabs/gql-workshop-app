@@ -1,9 +1,17 @@
-exports.type = `    
+exports.type = `
+  enum PosterSize {
+    THUMB
+    SMALL
+    MEDIUM
+    LARGE
+    ORIGINAL
+  }
+
   type Movie {
     id: ID!
     title: String!
     voteAverage: Float!
-    posterPath: String!
+    posterPath(size: PosterSize): String!
     backdropPath: String!
     overview: String!
     tagline: String
@@ -21,9 +29,16 @@ exports.type = `
 const favorites = new Set();
 
 exports.resolvers = {
+  PosterSize: {
+    THUMB: 'w92',
+    SMALL: 'w185',
+    MEDIUM: 'w500',
+    LARGE: 'w780',
+    ORIGINAL: 'original'
+  },
   Movie: {
-    posterPath: (root) => {
-      return `https://image.tmdb.org/t/p/w500${root.posterPath}`;
+    posterPath: (root, { size = "w500" }) => {
+      return `https://image.tmdb.org/t/p/${size}${root.posterPath}`;
     },
     backdropPath: root => {
       return `https://image.tmdb.org/t/p/w1280${root.backdropPath}`;
