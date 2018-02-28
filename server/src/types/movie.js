@@ -44,14 +44,12 @@ exports.resolvers = {
     backdropPath: root => {
       return `https://image.tmdb.org/t/p/w1280${root.backdropPath}`;
     },
-    genres: ({ genreIds, genres }, _, { axios }) => {
+    genres: ({ genreIds, genres }, _, { loaders }) => {
       if (genres) {
         return genres;
       }
 
-      return axios
-        .get('3/genre/movie/list')
-        .then(res => res.data.genres)
+      return loaders.genres()
         .then(genres => genreIds.map(id => genres.find(genre => genre.id === id)));
     }
   },
