@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import Favorite from '../Favorite';
 import './movieCard.css';
 
-import { FAVES_QUERY } from '../../screens/MoviesScreen';
-
 class MovieCard extends Component {
-
   handleFavClick = e => {
     e.preventDefault();
     this.props.addToFavorites();
-  }
+  };
 
   render() {
-    const { id, posterPath, title, releaseDate, overview, isFavorite } = this.props;
+    const {
+      id,
+      posterPath,
+      title,
+      releaseDate,
+      overview,
+      isFavorite,
+    } = this.props;
     return (
       <div>
         <Link to={`/movie/${id}`} className="movieCard">
-          <img className="cardImage" src={posterPath} />
+          <img alt="poster" className="cardImage" src={posterPath} />
           <div className="cardDetails">
-            <h2 className="cardTitle">{title} <Favorite movieId={id} selected={isFavorite} /></h2>
+            <h2 className="cardTitle">
+              {title} <Favorite movie={this.props} selected={isFavorite} />
+            </h2>
             <span className="releaseDate">{releaseDate}</span>
             <p className="cardOverview">{overview}</p>
           </div>
         </Link>
       </div>
     );
-  };
-
+  }
 }
 
 /**
