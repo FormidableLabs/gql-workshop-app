@@ -58,7 +58,28 @@ const withData = graphql(
         ${MovieCard.fragment}
     `,
     {
-        props: ({ data: { movies, loading } }) => ({ movies, loading }),
+        props: ({ data: { movies, loading, fetchMore } }) => ({
+            movies,
+            loading,
+            loadMore: () => {
+                /* determine the next page int */
+                const nextPage = Math.floor(movies.length / 20) + 1;
+
+                return fetchMore({
+                    variables: {
+                        page: nextPage,
+                    },
+                    updateQuery: (previous, { fetchMoreResult }) => {
+                        if (!previous) return previous;
+
+                        return {
+                            ...previous,
+                            movies: [...previous.movies, ...fetchMoreResult.movies],
+                        };
+                    },
+                });
+            },
+        }),
     }
 );
 
