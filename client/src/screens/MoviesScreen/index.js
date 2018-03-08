@@ -46,44 +46,43 @@ const Movies = ({ movies, favorites = [], loading, loadMore }) => {
  *   - Add pagination using FetchMore
  */
 
-const withData = graphql(
-    gql`
-        query Movies($page: Int) {
-            movies(page: $page) {
-                id
-                ...MovieCard
-            }
-            favorites {
-              id
-            }
+export const MOVIES_QUERY = gql`
+    query Movies($page: Int) {
+        movies(page: $page) @connection(key: "Movies") {
+            id
+            ...MovieCard
         }
-        ${MovieCard.fragment}
-    `,
-    {
-        props: ({ data: { movies, favorites, loading, fetchMore } }) => ({
-            movies,
-            loading,
-            favorites,
-            loadMore: () => {
-                /* determine the next page int */
-                const nextPage = Math.floor(movies.length / 20) + 1;
-
-                return fetchMore({
-                    variables: {
-                        page: nextPage,
-                    },
-                    updateQuery: (previous, { fetchMoreResult }) => {
-                        if (!previous) return previous;
-
-                        return {
-                            ...previous,
-                            movies: [...previous.movies, ...fetchMoreResult.movies],
-                        };
-                    },
-                });
-            },
-        }),
+        favorites {
+            id
+        }
     }
-);
+    ${MovieCard.fragment}
+`;
+
+const withData = graphql(MOVIES_QUERY, {
+    props: ({ data: { movies, favorites, loading, fetchMore } }) => ({
+        movies,
+        loading,
+        favorites,
+        loadMore: () => {
+            /* determine the next page int */
+            const nextPage = Math.floor(movies.length / 20) + 1;
+
+            return fetchMore({
+                variables: {
+                    page: nextPage,
+                },
+                updateQuery: (previous, { fetchMoreResult }) => {
+                    if (!previous) return previous;
+
+                    return {
+                        ...previous,
+                        movies: [...previous.movies, ...fetchMoreResult.movies],
+                    };
+                },
+            });
+        },
+    }),
+});
 
 export default withData(Movies);

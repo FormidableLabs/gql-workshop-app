@@ -3,6 +3,7 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
 import { graphql, compose } from "react-apollo";
+import { MOVIES_QUERY } from "../screens/MoviesScreen"
 
 const Favorite = ({ selected, addToFavorites = () => {}, removeFromFavorites = () => {} }) => {
     return (
@@ -59,6 +60,22 @@ const withAddToFavorites = graphql(
                                 id: movieId,
                                 isFavorite: true,
                             },
+                        },
+                        update: (cache, { data: { addToFavorites: movie } }) => {
+                            const data = cache.readQuery({
+                                query: MOVIES_QUERY,
+                            });
+
+                            const hasMovie = data.favorites.some(({ id }) => id === movieId);
+
+                            if (!hasMovie) {
+                                data.favorites.push(movie);
+
+                                cache.writeQuery({
+                                    query: MOVIES_QUERY,
+                                    data,
+                                });
+                            }
                         },
                     }),
             };
