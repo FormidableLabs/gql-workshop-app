@@ -23,7 +23,6 @@ const Favorite = ({ selected, addToFavorites = () => {}, removeFromFavorites = (
 Favorite.propTypes = {
     selected: PropTypes.bool,
     addToFavorites: PropTypes.func,
-    selected: PropTypes.func,
 };
 
 /**
@@ -116,7 +115,7 @@ const withRemoveFromFavorites = graphql(
                             const hasMovie = data.favorites.some(({ id }) => id === movieId);
 
                             if (hasMovie) {
-                                data.favorites.filter(({ id }) => id !== movieId);
+                                data.favorites = data.favorites.filter(({ id }) => id !== movieId);
 
                                 cache.writeQuery({
                                     query: MOVIES_QUERY,
