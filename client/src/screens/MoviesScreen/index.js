@@ -53,13 +53,17 @@ const withData = graphql(
                 id
                 ...MovieCard
             }
+            favorites {
+              id
+            }
         }
         ${MovieCard.fragment}
     `,
     {
-        props: ({ data: { movies, loading, fetchMore } }) => ({
+        props: ({ data: { movies, favorites, loading, fetchMore } }) => ({
             movies,
             loading,
+            favorites,
             loadMore: () => {
                 /* determine the next page int */
                 const nextPage = Math.floor(movies.length / 20) + 1;
