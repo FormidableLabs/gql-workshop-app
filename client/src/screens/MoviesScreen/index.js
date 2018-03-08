@@ -52,13 +52,10 @@ const withData = graphql(
         query Movies($page: Int) {
             movies(page: $page) {
                 id
-                title
-                posterPath(size: MEDIUM)
-                releaseDate
-                overview
-                isFavorite
+                ...MovieCard
             }
         }
+        ${MovieCard.fragment}
     `,
     {
         props: ({ data: { movies, loading } }) => ({ movies, loading }),
