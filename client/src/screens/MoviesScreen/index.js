@@ -1,8 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
-import { graphql, compose } from "react-apollo";
+import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
-import { withProps } from "recompose";
 import "./moviesScreen.css";
 
 import MovieCard from "../../components/MovieCard";
