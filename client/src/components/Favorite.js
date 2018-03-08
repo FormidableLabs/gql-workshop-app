@@ -3,7 +3,7 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
 import { graphql, compose } from "react-apollo";
-import { MOVIES_QUERY } from "../screens/MoviesScreen"
+import { MOVIES_QUERY } from "../screens/MoviesScreen";
 
 const Favorite = ({ selected, addToFavorites = () => {}, removeFromFavorites = () => {} }) => {
     return (
@@ -83,4 +83,51 @@ const withAddToFavorites = graphql(
     }
 );
 
-export default withAddToFavorites(Favorite);
+const withRemoveFromFavorites = graphql(
+    gql`
+        mutation($movieId: ID!) {
+            removeFromFavorites(input: { id: $movieId }) {
+                id
+                isFavorite
+            }
+        }
+    `,
+    {
+        props: ({ mutate, ownProps: { movieId } }) => {
+            return {
+                removeFromFavorites: () =>
+                    mutate({
+                        variables: {
+                            movieId,
+                        },
+                        optimisticResponse: {
+                            __typename: "Mutation",
+                            removeFromFavorites: {
+                                __typename: "Movie",
+                                id: movieId,
+                                isFavorite: false,
+                            },
+                        },
+                        update: (cache, { data: { removeFromFavorites: movie } }) => {
+                            const data = cache.readQuery({
+                                query: MOVIES_QUERY,
+                            });
+
+                            const hasMovie = data.favorites.some(({ id }) => id === movieId);
+
+                            if (hasMovie) {
+                                data.favorites.filter(({ id }) => id !== movieId);
+
+                                cache.writeQuery({
+                                    query: MOVIES_QUERY,
+                                    data,
+                                });
+                            }
+                        },
+                    }),
+            };
+        },
+    }
+);
+
+export default compose(withAddToFavorites, withRemoveFromFavorites)(Favorite);
