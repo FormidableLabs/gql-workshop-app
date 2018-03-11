@@ -21,8 +21,7 @@ const Favorite = ({
 
 Favorite.propTypes = {
   selected: PropTypes.bool,
-  addToFavorites: PropTypes.func,
-  selected: PropTypes.func,
+  addToFavorites: PropTypes.func
 }
 
 /**
