@@ -54,6 +54,7 @@ export const MOVIES_QUERY = gql`
         }
         favorites {
             id
+            ...MovieCard
         }
     }
     ${MovieCard.fragment}
