@@ -1,0 +1,26 @@
+# import Cast from "./cast.graphql"
+# import Genre from "./genre.graphql"
+
+enum PosterSize {
+  THUMB
+  SMALL
+  MEDIUM
+  LARGE
+  ORIGINAL
+}
+
+type Movie {
+  id: ID!
+  title: String!
+  voteAverage: Float!
+  posterPath(size: PosterSize): String!
+  backdropPath: String!
+  overview: String!
+  tagline: String
+  runtime: Int
+  revenue: Int
+  releaseDate: Date
+  genres: [Genre!]
+  cast: [Cast!]
+  isFavorite: Boolean!
+}

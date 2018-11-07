@@ -1,0 +1,11 @@
+# import Movie from "./movie.graphql"
+# import Genre from "./genre.graphql"
+
+scalar Date
+
+type Query {
+  movie(id: ID!): Movie
+  movies(page: Int): [Movie!]!
+  favorites: [Movie!]!
+  genre(id: ID!): Genre
+}
