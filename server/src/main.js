@@ -7,7 +7,7 @@ const { importSchema } = require('graphql-import');
 const typeDefs = importSchema('./src/schema/schema.graphql');
 const resolvers = require('./types');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
