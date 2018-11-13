@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import numeral from 'numeral';
-import { withProps } from 'recompose';
+import { Query } from 'react-apollo';
 
 import './movie.css';
 import Favorite from '../../components/Favorite';
@@ -45,7 +44,9 @@ class Movie extends Component {
             <img className="poster" src={posterPath} />
           </div>
           <div className="movieInfo">
-            <h1 className="title">{title} <Favorite movieId={id} selected={isFavorite} /></h1>
+            <h1 className="title">
+              {title} <Favorite movieId={id} selected={isFavorite} />
+            </h1>
             <span className="tagline">{tagline}</span>
             <p>{overview}</p>
             <div className="details">
@@ -61,46 +62,46 @@ class Movie extends Component {
   }
 }
 
+const MOVIE_QUERY = gql`
+  query Movie($movieId: ID!) {
+    movie(id: $movieId) {
+      id
+      title
+      backdropPath
+      posterPath(size: MEDIUM)
+      tagline
+      overview
+      releaseDate
+      voteAverage
+      runtime
+      revenue
+      isFavorite
+    }
+  }
+`;
+
 /**
  * TODO
  *   - Create query HOC
  *   - Get movieId from router params
  *   - Extract props from data
  */
-
-const withData = graphql(
-  gql`
-    query Movie($movieId: ID!) {
-      movie(id: $movieId) {
-        id
-        title
-        backdropPath
-        posterPath(size: MEDIUM)
-        tagline
-        overview
-        releaseDate
-        voteAverage
-        runtime
-        revenue
-        isFavorite
-      }
-    }
-  `,
-  {
-    options: ({ match: { params: { id } } }) => {
-      return {
-        variables: {
-          movieId: id
-        }
-      };
-    },
-    props: ({ data: { movie, loading } }) => {
-      return {
-        movie,
-        loading
-      };
-    }
+class MovieWithData extends Component {
+  render() {
+    return (
+      <Query
+        query={MOVIE_QUERY}
+        variables={{
+          // Get the movie ID from React Router navigation props
+          movieId: this.props.match.params.id
+        }}
+      >
+        {props => {
+          return <Movie movie={props.data.movie} loading={props.loading} />;
+        }}
+      </Query>
+    );
   }
-);
+}
 
-export default withData(Movie);
+export default MovieWithData;

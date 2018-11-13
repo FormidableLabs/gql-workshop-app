@@ -7,7 +7,7 @@ input FavoriteInput {
 }
 
 type Mutation {
-  login(email: String!): LoginResponse 
-  addToFavorites(input: FavoriteInput!): Movie
-  removeFromFavorites(input: FavoriteInput!): Movie
+  login(email: String!): LoginResponse
+  addToFavorites(input: FavoriteInput!): Movie @auth
+  removeFromFavorites(input: FavoriteInput!): Movie @auth
 }

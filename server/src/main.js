@@ -3,6 +3,7 @@ const express = require('express');
 const isemail = require('isemail');
 const makeApiClient = require('./apiClient');
 const { importSchema } = require('graphql-import');
+const AuthDirective = require('./authDirective');
 
 const typeDefs = importSchema('./src/schema/schema.graphql');
 const resolvers = require('./types');
@@ -28,6 +29,9 @@ app.use((req, _, next) => {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  schemaDirectives: {
+    auth: AuthDirective
+  },
   tracing: true,
   context: ({ req }) => {
     return {

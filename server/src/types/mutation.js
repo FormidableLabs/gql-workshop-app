@@ -1,32 +1,25 @@
 const isemail = require('isemail');
+const { GraphQLError } = require('graphql');
 
 module.exports = {
   Mutation: {
     login: (_, { email }) => {
       if (!isemail.validate(email)) {
-        throw new Error('Invalid email');
+        throw new GraphQLError('Invalid email address');
       }
       return {
-        token: new Buffer(email).toString('base64')
+        token: Buffer.from(email).toString('base64')
       };
     },
 
-    addToFavorites: (root, { input: { id } }, { apiClient, isLoggedIn, favoritesStore }) => {
-      if (!isLoggedIn) {
-        throw new Error('Invalid Access: Not logged in');
-      }
-
+    addToFavorites: (_, { input: { id } }, { apiClient, favoritesStore }) => {
       favoritesStore.add(id);
       return apiClient.load([`movie/${id}`]).then(res => res.data);
     },
 
-    removeFromFavorites: (root, { input: { id } }, { apiClient, isLoggedIn, favoritesStore }) => {
-      if (!isLoggedIn) {
-        throw new Error('Invalid Access: Not logged in');
-      }
-
+    removeFromFavorites: (_, { input: { id } }, { apiClient, favoritesStore }) => {
       favoritesStore.delete(id);
-      return apiClient.load([`3/movie/${id}`]).then(res => res.data);
+      return apiClient.load([`movie/${id}`]).then(res => res.data);
     }
   }
 };
