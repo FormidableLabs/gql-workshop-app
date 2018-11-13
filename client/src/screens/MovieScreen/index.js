@@ -41,7 +41,7 @@ class Movie extends Component {
         >
         <div className="container">
           <div className="posterContainer">
-            <img className="poster" src={posterPath} />
+            <img className="poster" src={posterPath} alt={title} />
           </div>
           <div className="movieInfo">
             <h1 className="title">
