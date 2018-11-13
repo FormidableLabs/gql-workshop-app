@@ -26,9 +26,9 @@ module.exports = {
     movie: (_, { id }, { apiClient }) => {
       return apiClient.load([`movie/${id}`]).then(res => res.data);
     },
-    favorites: (_, __, { apiClient }) => {
+    favorites: (_, __, { apiClient, favoritesStore }) => {
       return Promise.all(
-        Array.from(favorites).map(id => apiClient.load([`movie/${id}`]).then(res => res.data))
+        Array.from(favoritesStore).map(id => apiClient.load([`movie/${id}`]).then(res => res.data))
       );
     }
   }

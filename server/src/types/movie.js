@@ -1,4 +1,11 @@
 module.exports = {
+  PosterSize: {
+    THUMB: 'w92',
+    SMALL: 'w185',
+    MEDIUM: 'w500',
+    LARGE: 'w780',
+    ORIGINAL: 'original'
+  },
   Movie: {
     posterPath: (root, { size = 'w500' }) => {
       return `https://image.tmdb.org/t/p/${size}${root.posterPath}`;
