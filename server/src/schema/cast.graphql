@@ -1,6 +1,0 @@
-type Cast {
-  id: ID!
-  name: String!
-  character: String!
-  profilePath: String
-}

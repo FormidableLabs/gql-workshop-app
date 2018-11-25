@@ -1,4 +1,0 @@
-type Genre {
-  id: ID!
-  name: String!
-}
