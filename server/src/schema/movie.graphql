@@ -9,4 +9,5 @@ type Movie {
   tagline: String
   runtime: Int
   revenue: Int
+  releaseDate: Date
 }

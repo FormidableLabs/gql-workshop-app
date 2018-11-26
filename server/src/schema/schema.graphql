@@ -1,1 +1,3 @@
 # import Query from "./query.graphql"
+
+scalar Date

@@ -1,4 +1,7 @@
+const { GraphQLDate } = require('graphql-iso-date');
+
 module.exports = {
+  Date: GraphQLDate,
   Query: {
     movies: (_, { page = 1 }, { apiClient }) => {
       return apiClient
