@@ -1,6 +1,3 @@
-# import Movie from "./movie.graphql"
-
 type Query {
-  movie(id: ID!): Movie
-  movies(page: Int): [Movie!]!
+  hello: String!
 }
