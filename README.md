@@ -39,6 +39,21 @@ There is way more that we _could_ cover, time permitting, but this is broadly wh
 
 You may notice a number of tags and branches peppered throughout the supporting repo. The workshop steps are tagged such that, if needed, we can skip through to completed examples. The required tag will be documented at the beginning of each section.
 
+## Code Sandbox
+It can be a time consuming challenge to ensure that everyone participating has their machine setup correctly. For this reason we like to use codesandbox to get everyone running nice 'n quickly.
+
+These are a list of the available branches as codeboxes. When prompted, go ahead and fork them to your own sandbox:
+
+Server: Launch Pad https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/launch/server
+Server: Starter https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/initial-server/server
+Server: Complete https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/client-starting-point/server
+
+Client: Start https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/client-starting-point/client
+
+---
+
+If really must develop locally, the following are the setup steps, proceed at your peril:
+
 ## System Requirements
 
 * [git][git] v2.14.1 or greater
