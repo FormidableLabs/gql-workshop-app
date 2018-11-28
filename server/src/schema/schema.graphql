@@ -1,0 +1,4 @@
+# import Query from "./query.graphql"
+# import Mutation from "./mutation.graphql"
+
+directive @auth on FIELD_DEFINITION

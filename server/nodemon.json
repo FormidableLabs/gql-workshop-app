@@ -1,4 +1,8 @@
 {
+  "watch": [
+    "./src/**/*.js",
+    "./src/schema/*.*"
+  ],
   "events": {
     "restart": "clear"
   }

@@ -1,0 +1,13 @@
+type LoginResponse {
+  token: String!
+}
+
+input FavoriteInput {
+  id: ID!
+}
+
+type Mutation {
+  login(email: String!): LoginResponse
+  addToFavorites(input: FavoriteInput!): Movie @auth
+  removeFromFavorites(input: FavoriteInput!): Movie @auth
+}

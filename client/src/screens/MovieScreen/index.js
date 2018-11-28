@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import numeral from 'numeral';
 import { withProps } from 'recompose';
 
@@ -42,10 +40,12 @@ class Movie extends Component {
         >
         <div className="container">
           <div className="posterContainer">
-            <img className="poster" src={posterPath} />
+            <img className="poster" src={posterPath} alt={title} />
           </div>
           <div className="movieInfo">
-            <h1 className="title">{title} <Favorite movieId={id} selected={isFavorite} /></h1>
+            <h1 className="title">
+              {title} <Favorite movieId={id} selected={isFavorite} />
+            </h1>
             <span className="tagline">{tagline}</span>
             <p>{overview}</p>
             <div className="details">
@@ -70,19 +70,20 @@ class Movie extends Component {
 
 const withData = withProps(() => ({
   movie: {
-    id: "284054",
-    title: "Black Panther",
-    posterPath: "https://image.tmdb.org/t/p/w500/bLBUCtMQGJclH36clliPLmljMys.jpg",
-    backdropPath: "https://image.tmdb.org/t/p/w1280/b6ZJZHUdMEFECvGiDpJjlfUWela.jpg",
-    tagline: "Long live the king",
-    overview: "After the events of Captain America: Civil War, King T'Challa returns home to the reclusive, technologically advanced African nation of Wakanda to serve as his country's new leader. However, T'Challa soon finds that he is challenged for the throne from factions within his own country. When two foes conspire to destroy Wakanda, the hero known as Black Panther must team up with C.I.A. agent Everett K. Ross and members of the Dora Milaje, Wakandan special forces, to prevent Wakanda from being dragged into a world war.",
-    releaseDate: "2018-02-13",
+    id: '284054',
+    title: 'Black Panther',
+    posterPath: 'https://image.tmdb.org/t/p/w500/bLBUCtMQGJclH36clliPLmljMys.jpg',
+    backdropPath: 'https://image.tmdb.org/t/p/w1280/b6ZJZHUdMEFECvGiDpJjlfUWela.jpg',
+    tagline: 'Long live the king',
+    overview:
+      "After the events of Captain America: Civil War, King T'Challa returns home to the reclusive, technologically advanced African nation of Wakanda to serve as his country's new leader. However, T'Challa soon finds that he is challenged for the throne from factions within his own country. When two foes conspire to destroy Wakanda, the hero known as Black Panther must team up with C.I.A. agent Everett K. Ross and members of the Dora Milaje, Wakandan special forces, to prevent Wakanda from being dragged into a world war.",
+    releaseDate: '2018-02-13',
     runtime: 134,
     revenue: 704000422,
     voteAverage: 7.4,
     isFavorite: false
   },
   loading: false
-}))
+}));
 
 export default withData(Movie);

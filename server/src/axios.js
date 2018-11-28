@@ -7,12 +7,11 @@ const omit = require('lodash/omit');
  * added some logging to make it explicit what requests are being made.
  */
 const instance = axios.create({
-  baseURL: 'http://themoviedb.imranolas.com',
+  baseURL: 'http://themoviedb.imranolas.com/3',
   params: {
     api_key: 'fa60ffe249c919e7f6c528a4aba8674a',
     include_adult: false,
-    include_video: false,
-
+    include_video: false
   },
 
   /**
@@ -25,7 +24,7 @@ const instance = axios.create({
 /**
  * Some explicit and colourful logging for each request.
  */
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use(function(config) {
   console.log(
     '\x1b[32m',
     config.method.toUpperCase(),
@@ -37,7 +36,7 @@ instance.interceptors.request.use(function (config) {
   return config;
 });
 
-instance.interceptors.response.use(function (res) {
+instance.interceptors.response.use(function(res) {
   // console.log(res.data);
   return res;
 });
