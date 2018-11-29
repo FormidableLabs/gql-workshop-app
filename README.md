@@ -44,7 +44,7 @@ It can be a time consuming challenge to ensure that everyone participating has t
 
 These are a list of the available branches as codeboxes. When prompted, go ahead and fork them to your own sandbox:
 
-- Server: Launch Pad https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/launch/server
+- Server: Launch Pad https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/launchpad/server
 - Server: Starter https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/initial-server/server
 - Server: Complete https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/client-starting-point/server
 - Client: Start https://codesandbox.io/s/github/FormidableLabs/gql-workshop-app/tree/client-starting-point/client
