@@ -1,3 +1,10 @@
+type Movie {
+  id: ID!
+  title: String!
+  overview: String!
+}
+
 type Query {
   hello: String!
+  movie(id: ID!): Movie
 }
