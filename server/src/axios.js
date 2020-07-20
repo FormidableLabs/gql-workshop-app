@@ -7,18 +7,18 @@ const omit = require('lodash/omit');
  * added some logging to make it explicit what requests are being made.
  */
 const instance = axios.create({
-  baseURL: 'http://themoviedb.imranolas.com/3',
+  baseURL: 'https://api.themoviedb.org/3',
   params: {
     api_key: 'fa60ffe249c919e7f6c528a4aba8674a',
     include_adult: false,
-    include_video: false
+    include_video: false,
   },
 
   /**
    * The response from the movieDB is snakecased and we'd prefer camelcase as it plays
    * better with GraphQL's auto resolution of object properties.
    */
-  transformResponse: data => camelcaseRecursive(JSON.parse(data))
+  transformResponse: (data) => camelcaseRecursive(JSON.parse(data)),
 });
 
 /**

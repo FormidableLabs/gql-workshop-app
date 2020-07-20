@@ -1,11 +1,10 @@
-const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
 const isemail = require('isemail');
 const makeApiClient = require('./apiClient');
 const { importSchema } = require('graphql-import');
 const AuthDirective = require('./authDirective');
 
-const typeDefs = importSchema('./src/schema/schema.graphql');
 const resolvers = require('./types');
 
 const PORT = process.env.PORT || 3001;
@@ -27,22 +26,22 @@ app.use((req, _, next) => {
 });
 
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: importSchema('./src/schema/schema.graphql'),
   resolvers,
   schemaDirectives: {
-    auth: AuthDirective
+    auth: AuthDirective,
   },
   tracing: true,
   context: ({ req }) => {
     return {
       isLoggedIn: !!req.email,
       apiClient: makeApiClient(),
-      favoritesStore: require('./favoritesStore')
+      favoritesStore: require('./favoritesStore'),
     };
   },
   playground: {
-    endpoint: '/graphql'
-  }
+    endpoint: '/graphql',
+  },
 });
 
 server.applyMiddleware({ app, bodyParserConfig: true });

@@ -7,23 +7,23 @@
     "start": "nodemon ./src/main.js"
   },
   "dependencies": {
-    "apollo-server": "^2.2.0",
-    "apollo-server-express": "^2.2.0",
-    "axios": "^0.17.1",
+    "apollo-server-express": "^2.16.0",
+    "axios": "^0.19.2",
     "body-parser": "^1.18.2",
     "camelcase-keys-recursive": "^0.8.2",
     "cors": "^2.8.4",
-    "dataloader": "^1.4.0",
+    "dataloader": "^2.0.0",
     "express": "^4.16.2",
-    "graphql": "^0.12.3",
-    "graphql-import": "^0.7.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "*",
+    "graphql-import": "^1.0.2",
     "graphql-iso-date": "^3.4.0",
-    "graphql-tools": "^2.19.0",
+    "graphql-tools": "^6.0.14",
     "isemail": "^3.1.1",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "nodemon": "^1.14.11"
+    "nodemon": "2.0.4"
   }
 }
