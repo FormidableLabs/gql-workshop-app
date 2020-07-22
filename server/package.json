@@ -7,8 +7,9 @@
     "start": "nodemon ./src/main.js"
   },
   "dependencies": {
+    "apollo-server": "^2.16.0",
     "apollo-server-express": "^2.16.0",
-    "axios": "^0.19.2",
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "camelcase-keys-recursive": "^0.8.2",
     "cors": "^2.8.4",

@@ -1,109 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'urql';
+import MovieCard from '../../components/MovieCard';
 import './moviesScreen.css';
 
-import MovieCard from '../../components/MovieCard';
+export const FAVORITES_QUERY = gql`
+  query Favorites {
+    favorites {
+      id
+    }
+  }
+`;
 
-const FavCount = ({ count }) => {
+const FavCount = () => {
+  const [res] = useQuery({ query: FAVORITES_QUERY });
+  if (!res.data) return null;
   return (
     <div className="favCount">
       <i className="fas fa-star fa-2x" />
       <i className="fas fa-circle" />
-      <span className="favCountValue">{count}</span>
+      <span className="favCountValue">{res.data.favorites.length}</span>
     </div>
   );
 };
 
-const Movies = ({ movies, favorites, loading, loadMore }) => {
-  if (loading) return null;
-
+const Movies = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const results = new Array(currentPage)
+    .fill(null)
+    .map((_, i) => <MovieResults key={i} page={i + 1} />);
   return (
     <div className="moviesScreen">
       <div className="header">
         <h1 className="moviesTitle">Discover</h1>
         <Link to="/favorites">
-          <FavCount count={favorites.length} />
+          <FavCount />
         </Link>
       </div>
-      <div className="moviesResults">
-        {movies.map(movie => (
-          <MovieCard key={movie.id} {...movie} />
-        ))}
-      </div>
-      <button className="button" onClick={loadMore}>
+      <div className="moviesResults">{results}</div>
+      <button className="button" onClick={() => setCurrentPage((page) => page + 1)}>
         Load More
       </button>
     </div>
   );
 };
 
-/**
- * TODO
- *   - Create HOC graphql component
- *   - Query for data required by movieCard
- *   - Extract movieCard query into a fragment on MovieCard
- *   - Expose relevant props from `data`
- *   - Add pagination using FetchMore
- */
-
 export const MOVIES_QUERY = gql`
   query Movies($page: Int) {
-    movies(page: $page) @connection(key: "Movies") {
+    movies(page: $page) {
       id
       ...MovieCard
-    }
-    favorites {
-      id
     }
   }
   ${MovieCard.fragment}
 `;
 
-class MoviesWithData extends React.Component {
-  loadMore = (moviesCount, fetchMore) => {
-    const nextPage = Math.floor(moviesCount / 20) + 1;
-    return fetchMore({
-      variables: {
-        page: nextPage
-      },
-      /**
-       * The first argument contains the list of movies already fetched and stored in the cache.
-       * The second argument contains the next page of movies.
-       *
-       * It's our responsibility to return an updated result to be persisted to the cache
-       * and the place to do that is in UpdateQuery.
-       */
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
-          return previousResult;
-        }
-        return Object.assign({}, previousResult, {
-          // Append the new feed results to the old one
-          movies: [...previousResult.movies, ...fetchMoreResult.movies]
-        });
-      }
-    });
-  };
+const MovieResults = ({ page }) => {
+  const [res] = useQuery({
+    query: MOVIES_QUERY,
+    variables: { page },
+  });
 
-  render() {
-    return (
-      <Query query={MOVIES_QUERY}>
-        {props => {
-          const moviesCount = (props.data.movies || []).length;
-          return (
-            <Movies
-              movies={props.data.movies}
-              favorites={props.data.favorites}
-              loading={props.loading}
-              loadMore={() => this.loadMore(moviesCount, props.fetchMore)}
-            />
-          );
-        }}
-      </Query>
-    );
-  }
-}
+  if (!res.data) return null;
 
-export default MoviesWithData;
+  const movies = res.data && res.data.movies;
+  return (
+    <>
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} {...movie} />
+      ))}
+    </>
+  );
+};
+
+export default Movies;
