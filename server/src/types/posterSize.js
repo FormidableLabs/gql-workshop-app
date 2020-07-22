@@ -4,6 +4,6 @@ module.exports = {
     SMALL: 'w185',
     MEDIUM: 'w500',
     LARGE: 'w780',
-    ORIGINAL: 'original'
-  }
+    ORIGINAL: 'original',
+  },
 };

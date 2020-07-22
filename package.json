@@ -1,0 +1,17 @@
+{
+  "name": "gql-workshop-app",
+  "version": "1.0.0",
+  "author": "Imran Sulemanj <imran.sulemanji@formidable.com>",
+  "license": "MIT",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "private": "true",
+  "devDependencies": {
+    "wsrun": "^5.2.1"
+  },
+  "resolutions": {
+  "graphql": "15.3.0"
+  }
+}

@@ -1,4 +1,3 @@
-// const isemail = require('isemail');
 const { GraphQLDate } = require('graphql-iso-date');
 
 module.exports = {
@@ -8,8 +7,8 @@ module.exports = {
     genre: (_, { id }, { apiClient }) => {
       return apiClient
         .load(['genre/movie/list'])
-        .then(res => res.data.genres)
-        .then(genres => genres.find(genre => genre.id === parseInt(id)));
+        .then((res) => res.data.genres)
+        .then((genres) => genres.find((genre) => genre.id === parseInt(id)));
     },
     movies: (_, { page = 1 }, { apiClient }) => {
       return apiClient
@@ -17,19 +16,21 @@ module.exports = {
           'discover/movie',
           {
             params: {
-              page
-            }
-          }
+              page,
+            },
+          },
         ])
-        .then(res => res.data.results);
+        .then((res) => res.data.results);
     },
     movie: (_, { id }, { apiClient }) => {
-      return apiClient.load([`movie/${id}`]).then(res => res.data);
+      return apiClient.load([`movie/${id}`]).then((res) => res.data);
     },
     favorites: (_, __, { apiClient, favoritesStore }) => {
       return Promise.all(
-        Array.from(favoritesStore).map(id => apiClient.load([`movie/${id}`]).then(res => res.data))
+        Array.from(favoritesStore).map((id) =>
+          apiClient.load([`movie/${id}`]).then((res) => res.data)
+        )
       );
-    }
-  }
+    },
+  },
 };

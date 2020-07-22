@@ -7,25 +7,23 @@ const omit = require('lodash/omit');
  * added some logging to make it explicit what requests are being made.
  */
 const instance = axios.create({
-  baseURL: 'http://themoviedb.imranolas.com/3',
+  baseURL: 'https://api.themoviedb.org/3',
   params: {
     api_key: 'fa60ffe249c919e7f6c528a4aba8674a',
-    include_adult: false,
-    include_video: false
   },
 
   /**
    * The response from the movieDB is snakecased and we'd prefer camelcase as it plays
    * better with GraphQL's auto resolution of object properties.
    */
-  transformResponse: data => camelcaseRecursive(JSON.parse(data))
+  transformResponse: (data) => camelcaseRecursive(JSON.parse(data)),
 });
 
 /**
  * Some explicit and colourful logging for each request.
  */
-instance.interceptors.request.use(function(config) {
-  console.log(
+instance.interceptors.request.use(function (config) {
+  console.info(
     '\x1b[32m',
     config.method.toUpperCase(),
     config.url,
@@ -36,9 +34,14 @@ instance.interceptors.request.use(function(config) {
   return config;
 });
 
-instance.interceptors.response.use(function(res) {
-  // console.log(res.data);
-  return res;
-});
+instance.interceptors.response.use(
+  function (res) {
+    return res;
+  },
+  (err) => {
+    console.error(err.stack);
+    return Promise.reject(err);
+  }
+);
 
 module.exports = instance;
