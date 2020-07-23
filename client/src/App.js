@@ -26,7 +26,7 @@ const client = createClient({
                 `,
               },
               (data) => {
-                if (data.favorites) {
+                if (data && data.favorites) {
                   data.favorites.push(result.addToFavorites);
                 }
                 return data;
@@ -45,7 +45,7 @@ const client = createClient({
                 `,
               },
               (data) => {
-                if (data.favorites) {
+                if (data && data.favorites) {
                   data.favorites = data.favorites.filter(
                     ({ id }) => id !== result.removeFromFavorites.id
                   );

@@ -12,16 +12,18 @@
 .backgroundContainer {
   background-size: cover;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .container {
   display: flex;
-  border-radius: 3px;
   background: rgba(0, 0, 0, 0.85);
   padding: 0;
   width: 75%;
-  margin: 50px auto 0;
   overflow: hidden;
+  height: fit-content;
 }
 
 .movieInfo {
